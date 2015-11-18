@@ -1,0 +1,1 @@
+[![Build Status](https://travis-ci.org/riadmaouchi/bluebank-atm-server.svg?branch=master)](https://travis-ci.org/riadmaouchi/bluebank-atm-server) [![Coverage Status](https://coveralls.io/repos/riadmaouchi/bluebank-atm-server/badge.svg)](https://coveralls.io/r/riadmaouchi/bluebank-atm-server)
