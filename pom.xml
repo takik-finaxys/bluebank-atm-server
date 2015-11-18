@@ -373,7 +373,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <protocExecutable>/usr/local/bin/protoc</protocExecutable>
+                    <protocExecutable>${PROTOC_HOME}</protocExecutable>
                 </configuration>
             </plugin>
 
