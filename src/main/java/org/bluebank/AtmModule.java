@@ -220,12 +220,10 @@ public class AtmModule {
     @Provides
     @Singleton
     public ATMConfiguration provideATMConfiguration(@Named("atm.properties") Configuration configuration) {
-        return () -> configuration.getBigDecimal("atm.cashonhand");
-
+           return () -> configuration.getBigDecimal("atm.cashonhand");
     }
 
     public interface ATMConfiguration {
-
         BigDecimal getCashOnHand();
     }
 }

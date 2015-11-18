@@ -1,6 +1,12 @@
 language: java
+cache:
+  directories:
+  - $HOME/protobuf
+sudo: false
 before_install:
-  - ./install-protobuf.sh
+  - bash install-protobuf.sh
+before_script:
+  - ls -R $HOME/protobuf
 script: mvn package
 jdk:
   - oraclejdk8
