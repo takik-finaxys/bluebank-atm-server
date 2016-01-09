@@ -1,14 +1,14 @@
 package org.bluebank.atm.authorization.outbound;
 
 import org.bluebank.api.endpoint.OutboundEndPoint;
+import org.bluebank.atm.Message;
 import org.bluebank.contract.Messages.CardValidationStatus;
 import org.bluebank.resource.AtmResource;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import static org.bluebank.contract.Messages.Message;
-import static org.bluebank.contract.Messages.Message.MessageType.CARD_VALIDATION_STATUS;
+import static org.bluebank.atm.Message.EventType.CARD_VALIDATION_STATUS;
 
 @Singleton
 public class PinValidationResponseSender implements OutboundEndPoint<CardValidationStatus> {
@@ -21,11 +21,7 @@ public class PinValidationResponseSender implements OutboundEndPoint<CardValidat
 
     @Override
     public void send(CardValidationStatus cardValidationStatus) {
-        Message message = Message.newBuilder()
-                .setType(CARD_VALIDATION_STATUS)
-                .setCardValidationStatus(cardValidationStatus)
-                .build();
-
+        Message message = new Message(CARD_VALIDATION_STATUS, cardValidationStatus.toByteArray());
         serverEndpoint.send(message);
     }
 }

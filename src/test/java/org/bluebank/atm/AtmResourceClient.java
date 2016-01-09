@@ -1,7 +1,9 @@
 package org.bluebank.atm;
 
 import com.google.protobuf.InvalidProtocolBufferException;
-import org.bluebank.contract.Messages.Message.MessageType;
+import org.bluebank.atm.Message.EventType;
+import org.bluebank.resource.MessageDecoder;
+import org.bluebank.resource.MessageEncoder;
 import org.eclipse.jetty.util.component.LifeCycle;
 
 import javax.websocket.ClientEndpoint;
@@ -13,12 +15,11 @@ import java.net.URI;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import static org.bluebank.contract.Messages.Message;
 
-@ClientEndpoint
+@ClientEndpoint(encoders = MessageEncoder.class, decoders = MessageDecoder.class)
 public class AtmResourceClient {
 
-    public static final ConcurrentMap<MessageType, Message> messages = new ConcurrentHashMap<>();
+    public static final ConcurrentMap<EventType, Message> messages = new ConcurrentHashMap<>();
     private static WebSocketContainer webSocketContainer;
 
     public static Session connect(URI uri) throws Exception {
@@ -33,9 +34,8 @@ public class AtmResourceClient {
     }
 
     @OnMessage
-    public void onMessage(byte[] payload) throws InvalidProtocolBufferException {
-        Message message = Message.parseFrom(payload);
-        messages.put(message.getType(), message);
+    public void onMessage(Message message) throws InvalidProtocolBufferException {
+        messages.put(message.event, message);
     }
 
 }

@@ -3,6 +3,7 @@ package org.bluebank.resource;
 
 import com.google.protobuf.InvalidProtocolBufferException;
 import org.bluebank.api.endpoint.InboundEndPoint;
+import org.bluebank.atm.Message;
 import org.bluebank.contract.Messages.DepositRequest;
 import org.bluebank.contract.Messages.InquiryRequest;
 import org.bluebank.contract.Messages.ValidateCardRequest;
@@ -24,12 +25,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static com.google.common.base.Throwables.propagate;
-import static java.nio.ByteBuffer.wrap;
 import static java.util.Collections.synchronizedSet;
-import static org.bluebank.contract.Messages.Message;
+
 
 @Singleton
-@ServerEndpoint(value = "/events")
+@ServerEndpoint(value = "/events", encoders = MessageEncoder.class, decoders = MessageDecoder.class)
 public class AtmResource {
 
     private static final Set<Session> sessions = synchronizedSet(new HashSet<>());
@@ -58,33 +58,36 @@ public class AtmResource {
 
     public void send(Message message) {
         sessions.stream().forEach(session ->
-                session.getAsyncRemote().sendBinary(wrap(message.toByteArray())));
+                session.getAsyncRemote().sendObject(message));
     }
 
     @OnMessage
-    public void onMessage(byte[] byteBuffer) {
-        Message message;
+    public void onMessage(Message message) {
+        final byte[] data = message.data;
         try {
-            message = Message.parseFrom(byteBuffer);
-            switch (message.getType()) {
+            switch (message.event) {
                 case VALIDATE_CARD_REQUEST:
-                    logger.info("Received message : {} ", message.getValidateCardRequest());
-                    validateCardRequestReceiver.handle(message.getValidateCardRequest());
+                    final ValidateCardRequest validateCardRequest = ValidateCardRequest.parseFrom(data);
+                    logger.info("Received message : {} ", validateCardRequest);
+                    validateCardRequestReceiver.handle(validateCardRequest);
                     break;
                 case VALIDATE_PIN_REQUEST:
-                    logger.info("Received message : {} ", message.getValidatePinRequest());
-                    validatePinRequestReceiver.handle(message.getValidatePinRequest());
+                    final ValidatePinRequest validatePinRequest = ValidatePinRequest.parseFrom(data);
+                    logger.info("Received message : {} ", validatePinRequest);
+                    validatePinRequestReceiver.handle(validatePinRequest);
                     break;
                 case DEPOSIT_REQUEST:
-                    logger.info("Received message : {} ", message.getDepositRequest());
-                    depositRequestReceiver.handle(message.getDepositRequest());
+                    final DepositRequest depositRequest = DepositRequest.parseFrom(data);
+                    logger.info("Received message : {} ", depositRequest);
+                    depositRequestReceiver.handle(depositRequest);
                     break;
                 case INQUIRY_REQUEST:
-                    logger.info("Received message : {} ", message.getInquiryRequest());
-                    inquiryRequestReceiver.handle(message.getInquiryRequest());
+                    final InquiryRequest inquiryRequest = InquiryRequest.parseFrom(data);
+                    logger.info("Received message : {} ", inquiryRequest);
+                    inquiryRequestReceiver.handle(inquiryRequest);
                     break;
                 default:
-                    logger.info("Discard unknown {} message type", message.getType());
+                    logger.info("Discard unknown {} message type", message.event);
             }
         } catch (InvalidProtocolBufferException e) {
             propagate(e);

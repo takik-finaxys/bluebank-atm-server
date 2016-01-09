@@ -1,13 +1,13 @@
 package org.bluebank.atm.transaction.outbound;
 
 import org.bluebank.api.endpoint.OutboundEndPoint;
+import org.bluebank.atm.Message;
 import org.bluebank.resource.AtmResource;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import static org.bluebank.contract.Messages.Message;
-import static org.bluebank.contract.Messages.Message.MessageType.RECEIPT;
+import static org.bluebank.atm.Message.EventType.RECEIPT;
 import static org.bluebank.contract.Messages.Receipt;
 
 @Singleton
@@ -21,11 +21,7 @@ public class ReceiptSender implements OutboundEndPoint<Receipt> {
 
     @Override
     public void send(Receipt receipt) {
-        Message message = Message.newBuilder()
-                .setType(RECEIPT)
-                .setReceipt(receipt)
-                .build();
-
+        Message message = new Message(RECEIPT, receipt.toByteArray());
         serverEndpoint.send(message);
     }
 }

@@ -1,8 +1,8 @@
 package org.bluebank.atm.authorization.outbound;
 
-import org.bluebank.resource.AtmResource;
 import org.bluebank.api.endpoint.OutboundEndPoint;
-import org.bluebank.contract.Messages.Message;
+import org.bluebank.atm.Message;
+import org.bluebank.resource.AtmResource;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

@@ -20,6 +20,7 @@ import org.bluebank.api.domain.Repository;
 import org.bluebank.api.endpoint.InboundEndPoint;
 import org.bluebank.api.endpoint.OutboundEndPoint;
 import org.bluebank.api.persistence.AbstractInMemoryRepository;
+import org.bluebank.atm.Message;
 import org.bluebank.atm.Transaction;
 import org.bluebank.atm.TransactionFactory;
 import org.bluebank.atm.authorization.inbound.DepositResponseReceiver;
@@ -38,7 +39,6 @@ import org.bluebank.banking.transaction.model.TransactionConfirmation;
 import org.bluebank.contract.Messages.CardValidationStatus;
 import org.bluebank.contract.Messages.DepositRequest;
 import org.bluebank.contract.Messages.InquiryRequest;
-import org.bluebank.contract.Messages.Message;
 import org.bluebank.contract.Messages.Receipt;
 import org.bluebank.contract.Messages.ValidateCardRequest;
 import org.bluebank.contract.Messages.ValidatePinRequest;
@@ -220,7 +220,7 @@ public class AtmModule {
     @Provides
     @Singleton
     public ATMConfiguration provideATMConfiguration(@Named("atm.properties") Configuration configuration) {
-           return () -> configuration.getBigDecimal("atm.cashonhand");
+        return () -> configuration.getBigDecimal("atm.cashonhand");
     }
 
     public interface ATMConfiguration {

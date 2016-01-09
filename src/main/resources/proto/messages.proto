@@ -1,26 +1,5 @@
 package org.bluebank.contract;
 
-message Message {
-    enum MessageType {
-        UNKNOWN = 0;
-        VALIDATE_CARD_REQUEST = 1;
-        VALIDATE_PIN_REQUEST = 2;
-        DEPOSIT_REQUEST = 3;
-        INQUIRY_REQUEST = 4;
-        CARD_READ_CONFIRMATION = 5;
-        CARD_VALIDATION_STATUS = 6;
-        RECEIPT = 7;
-    }
-    optional MessageType type = 1;
-    optional ValidateCardRequest validateCardRequest = 2;
-    optional ValidatePinRequest validatePinRequest = 3;
-    optional DepositRequest depositRequest = 4;
-    optional InquiryRequest inquiryRequest = 5;
-    optional CardReadConfirmation cardReadConfirmation = 6;
-    optional CardValidationStatus cardValidationStatus = 7;
-    optional Receipt receipt = 8;
-}
-
 message ValidateCardRequest {
     optional string cardNumber = 1;
     optional string transactionId = 2;

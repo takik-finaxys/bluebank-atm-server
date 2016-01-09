@@ -3,14 +3,14 @@ package org.bluebank.bdd;
 import dagger.Component;
 import org.bluebank.ApplicationComponent;
 import org.bluebank.api.domain.IdGenerator;
-import org.bluebank.api.endpoint.OutboundEndPoint;
 import org.bluebank.api.domain.PlatformClock;
 import org.bluebank.api.domain.Repository;
+import org.bluebank.api.endpoint.OutboundEndPoint;
 import org.bluebank.atm.Atm;
+import org.bluebank.atm.Message;
 import org.bluebank.banking.Bank;
 import org.bluebank.banking.account.model.Account;
 import org.bluebank.contract.Messages.CardValidationStatus;
-import org.bluebank.contract.Messages.Message;
 import org.bluebank.contract.Messages.Receipt;
 
 import javax.inject.Named;

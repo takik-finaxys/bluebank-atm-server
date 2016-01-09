@@ -13,18 +13,10 @@ import java.util.UUID;
 
 import static com.jayway.awaitility.Awaitility.await;
 import static java.lang.String.format;
-import static java.nio.ByteBuffer.wrap;
 import static org.bluebank.atm.AtmResourceClient.close;
 import static org.bluebank.atm.AtmResourceClient.connect;
 import static org.bluebank.atm.AtmResourceClient.messages;
 import static org.bluebank.contract.Messages.DepositRequest;
-import static org.bluebank.contract.Messages.Message;
-import static org.bluebank.contract.Messages.Message.MessageType.CARD_READ_CONFIRMATION;
-import static org.bluebank.contract.Messages.Message.MessageType.CARD_VALIDATION_STATUS;
-import static org.bluebank.contract.Messages.Message.MessageType.DEPOSIT_REQUEST;
-import static org.bluebank.contract.Messages.Message.MessageType.RECEIPT;
-import static org.bluebank.contract.Messages.Message.MessageType.VALIDATE_CARD_REQUEST;
-import static org.bluebank.contract.Messages.Message.MessageType.VALIDATE_PIN_REQUEST;
 import static org.bluebank.contract.Messages.ValidateCardRequest;
 import static org.bluebank.contract.Messages.ValidatePinRequest;
 
@@ -54,37 +46,38 @@ public class AtmResourceIT {
 
         UUID transactionId = new UUID(0, 1);
 
-        Message message = Message.newBuilder()
-                .setType(VALIDATE_CARD_REQUEST)
-                .setValidateCardRequest(ValidateCardRequest.newBuilder()
-                        .setTransactionId(transactionId.toString())
-                        .setCardNumber("5555444433331111"))
+        ValidateCardRequest validateCardRequest = ValidateCardRequest.newBuilder()
+                .setTransactionId(transactionId.toString())
+                .setCardNumber("5555444433331111")
                 .build();
-        session.getBasicRemote().sendBinary(wrap(message.toByteArray()));
+        Message message = new Message(Message.EventType.VALIDATE_CARD_REQUEST, validateCardRequest.toByteArray());
+
+        session.getBasicRemote().sendObject(message);
         await().until(() -> {
-            return messages.containsKey(CARD_READ_CONFIRMATION);
+            return messages.containsKey(Message.EventType.CARD_READ_CONFIRMATION);
         });
 
-        Message validatePinMessage = Message.newBuilder()
-                .setType(VALIDATE_PIN_REQUEST)
-                .setValidatePinRequest(ValidatePinRequest.newBuilder()
-                        .setTransactionId(transactionId.toString())
-                        .setPin("1234"))
+        ValidatePinRequest validatePinRequest = ValidatePinRequest.newBuilder()
+                .setTransactionId(transactionId.toString())
+                .setPin("1234")
                 .build();
-        session.getBasicRemote().sendBinary(wrap(validatePinMessage.toByteArray()));
+
+        Message validatePinMessage = new Message(Message.EventType.VALIDATE_PIN_REQUEST,validatePinRequest.toByteArray() );
+
+        session.getBasicRemote().sendObject(validatePinMessage);
         await().until(() -> {
-            return messages.containsKey(CARD_VALIDATION_STATUS);
+            return messages.containsKey(Message.EventType.CARD_VALIDATION_STATUS);
         });
 
-        Message depositMessage = Message.newBuilder()
-                .setType(DEPOSIT_REQUEST)
-                .setDepositRequest(DepositRequest.newBuilder()
-                        .setTransactionId(transactionId.toString())
-                        .setAmount(200))
+        DepositRequest depositRequest = DepositRequest.newBuilder()
+                .setTransactionId(transactionId.toString())
+                .setAmount(200)
                 .build();
-        session.getBasicRemote().sendBinary(wrap(depositMessage.toByteArray()));
+        Message depositMessage = new Message(Message.EventType.DEPOSIT_REQUEST, depositRequest.toByteArray());
+
+        session.getBasicRemote().sendObject(depositMessage);
         await().until(() -> {
-            return messages.containsKey(RECEIPT);
+            return messages.containsKey(Message.EventType.RECEIPT);
         });
     }
 
