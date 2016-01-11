@@ -64,9 +64,11 @@ public class Application extends ResourceConfig {
         applicationComponent.getCardValidationRequestedHandler();
         applicationComponent.getPinValidationResponseHandler();
         applicationComponent.getDepositRequestedHandler();
+        applicationComponent.getWithdrawRequestedHandler();
         applicationComponent.getInquiryRequestedHandler();
         applicationComponent.getPinValidationRequestHandler();
         applicationComponent.getDepositPerformedHandler();
+        applicationComponent.getWithdrawPerformedHandler();
         applicationComponent.getInquiryPerformedHandler();
         applicationComponent.getPinValidationHandler();
 
@@ -114,7 +116,7 @@ public class Application extends ResourceConfig {
     }
 
     public static void main(String[] args) throws InterruptedException {
-        new Application().start(8080);
+        new Application().start(8180);
         server.join();
     }
 

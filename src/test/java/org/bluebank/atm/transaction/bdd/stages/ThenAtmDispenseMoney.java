@@ -59,6 +59,14 @@ public class ThenAtmDispenseMoney<SELF extends ThenAtmDispenseMoney<?>> extends 
         return self();
     }
 
+    public SELF the_ATM_dispenses_$_dollars(String amount) {
+        ArgumentCaptor<BigDecimal> captor = forClass(BigDecimal.class);
+        verify(atm).dispenseCash(captor.capture());
+        BigDecimal cash = captor.getValue();
+        assertThat(cash).isEqualTo(new BigDecimal(amount));
+        return self();
+    }
+
     public SELF the_card_is_returned() {
         verify(atm).ejectCard();
         return self();

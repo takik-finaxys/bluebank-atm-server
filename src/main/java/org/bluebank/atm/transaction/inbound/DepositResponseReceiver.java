@@ -1,4 +1,4 @@
-package org.bluebank.atm.authorization.inbound;
+package org.bluebank.atm.transaction.inbound;
 
 
 import org.bluebank.api.command.processor.CommandProcessor;

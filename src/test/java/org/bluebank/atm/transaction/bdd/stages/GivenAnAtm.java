@@ -43,6 +43,7 @@ public class GivenAnAtm<SELF extends GivenAnAtm<?>> extends Stage<SELF> {
         bddComponent.getCardValidationRequestedHandler();
         bddComponent.getPinValidationResponseHandler();
         bddComponent.getDepositRequestedHandler();
+        bddComponent.getWithdrawRequestedHandler();
         bddComponent.getInquiryRequestedHandler();
         bddComponent.getPinValidationRequestHandler();
         validatePinRequestReceiver = bddComponent.getValidatePinRequestReceiver();

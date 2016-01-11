@@ -8,6 +8,7 @@ import org.bluebank.contract.Messages.DepositRequest;
 import org.bluebank.contract.Messages.InquiryRequest;
 import org.bluebank.contract.Messages.ValidateCardRequest;
 import org.bluebank.contract.Messages.ValidatePinRequest;
+import org.bluebank.contract.Messages.WithdrawRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,16 +38,19 @@ public class AtmResource {
     private final InboundEndPoint<ValidateCardRequest> validateCardRequestReceiver;
     private final InboundEndPoint<ValidatePinRequest> validatePinRequestReceiver;
     private final InboundEndPoint<DepositRequest> depositRequestReceiver;
+    private final InboundEndPoint<WithdrawRequest> withdrawRequestReceiver;
     private final InboundEndPoint<InquiryRequest> inquiryRequestReceiver;
 
     @Inject
     public AtmResource(@Named("validateCardRequestReceiver") InboundEndPoint<ValidateCardRequest> validateCardRequestReceiver,
                        @Named("validatePinRequestReceiver") InboundEndPoint<ValidatePinRequest> validatePinRequestReceiver,
                        @Named("depositRequestReceiver") InboundEndPoint<DepositRequest> depositRequestReceiver,
+                       @Named("withdrawRequestReceiver") InboundEndPoint<WithdrawRequest> withdrawRequestReceiver,
                        @Named("inquiryRequestReceiver") InboundEndPoint<InquiryRequest> inquiryRequestReceiver) {
         this.validateCardRequestReceiver = validateCardRequestReceiver;
         this.validatePinRequestReceiver = validatePinRequestReceiver;
         this.depositRequestReceiver = depositRequestReceiver;
+        this.withdrawRequestReceiver = withdrawRequestReceiver;
         this.inquiryRequestReceiver = inquiryRequestReceiver;
     }
 
@@ -80,6 +84,11 @@ public class AtmResource {
                     final DepositRequest depositRequest = DepositRequest.parseFrom(data);
                     logger.info("Received message : {} ", depositRequest);
                     depositRequestReceiver.handle(depositRequest);
+                    break;
+                case WITHDRAW_REQUEST:
+                    final WithdrawRequest withdrawRequest = WithdrawRequest.parseFrom(data);
+                    logger.info("Received message : {} ", withdrawRequest);
+                    withdrawRequestReceiver.handle(withdrawRequest);
                     break;
                 case INQUIRY_REQUEST:
                     final InquiryRequest inquiryRequest = InquiryRequest.parseFrom(data);

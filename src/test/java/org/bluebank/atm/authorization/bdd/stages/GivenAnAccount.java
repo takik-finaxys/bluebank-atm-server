@@ -34,6 +34,7 @@ public class GivenAnAccount<SELF extends GivenAnAccount<?>> extends Stage<SELF> 
     public void before() {
         bank = bddComponent.getBank();
         bddComponent.getDepositPerformedHandler();
+        bddComponent.getWithdrawPerformedHandler();
         bddComponent.getInquiryPerformedHandler();
         bddComponent.getPinValidationHandler();
     }

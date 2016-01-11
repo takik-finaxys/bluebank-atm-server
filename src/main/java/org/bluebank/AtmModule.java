@@ -23,15 +23,17 @@ import org.bluebank.api.persistence.AbstractInMemoryRepository;
 import org.bluebank.atm.Message;
 import org.bluebank.atm.Transaction;
 import org.bluebank.atm.TransactionFactory;
-import org.bluebank.atm.authorization.inbound.DepositResponseReceiver;
-import org.bluebank.atm.authorization.inbound.InquiryResponseReceiver;
 import org.bluebank.atm.authorization.inbound.PinValidationResponseReceiver;
 import org.bluebank.atm.authorization.inbound.ValidateCardRequestReceiver;
 import org.bluebank.atm.authorization.inbound.ValidatePinRequestReceiver;
 import org.bluebank.atm.authorization.outbound.CardValidationRequestSender;
 import org.bluebank.atm.authorization.outbound.PinValidationResponseSender;
 import org.bluebank.atm.transaction.inbound.DepositRequestReceiver;
+import org.bluebank.atm.transaction.inbound.DepositResponseReceiver;
 import org.bluebank.atm.transaction.inbound.InquiryRequestReceiver;
+import org.bluebank.atm.transaction.inbound.InquiryResponseReceiver;
+import org.bluebank.atm.transaction.inbound.WithdrawRequestReceiver;
+import org.bluebank.atm.transaction.inbound.WithdrawResponseReceiver;
 import org.bluebank.atm.transaction.outbound.ReceiptSender;
 import org.bluebank.banking.authorization.outbound.PinValidationResponse;
 import org.bluebank.banking.transaction.model.Inquiry;
@@ -42,6 +44,7 @@ import org.bluebank.contract.Messages.InquiryRequest;
 import org.bluebank.contract.Messages.Receipt;
 import org.bluebank.contract.Messages.ValidateCardRequest;
 import org.bluebank.contract.Messages.ValidatePinRequest;
+import org.bluebank.contract.Messages.WithdrawRequest;
 import org.bluebank.resource.TransactionResource;
 
 import javax.inject.Named;
@@ -103,6 +106,13 @@ public class AtmModule {
 
     @Singleton
     @Provides
+    @Named("withdrawRequestReceiver")
+    public InboundEndPoint<WithdrawRequest> provideWithdrawRequestReceiver(WithdrawRequestReceiver withdrawRequestReceiver) {
+        return withdrawRequestReceiver;
+    }
+
+    @Singleton
+    @Provides
     @Named("inquiryRequestReceiver")
     public InboundEndPoint<InquiryRequest> provideInquiryRequestReceiver(InquiryRequestReceiver inquiryRequestReceiver) {
         return inquiryRequestReceiver;
@@ -140,6 +150,13 @@ public class AtmModule {
     @Named("depositResponseReceiver")
     public InboundEndPoint<TransactionConfirmation> provideDepositResponseReceiver(DepositResponseReceiver depositResponseReceiver) {
         return depositResponseReceiver;
+    }
+
+    @Singleton
+    @Provides
+    @Named("withdrawResponseReceiver")
+    public InboundEndPoint<TransactionConfirmation> provideWithdrawResponseReceiver(WithdrawResponseReceiver withdrawResponseReceiver) {
+        return withdrawResponseReceiver;
     }
 
     @Singleton

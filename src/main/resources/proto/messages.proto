@@ -18,9 +18,13 @@ message DepositRequest {
  optional double amount = 2;
 }
 
+message WithdrawRequest {
+ optional string transactionId = 1;
+ optional double amount = 2;
+}
+
 message InquiryRequest {
  optional string transactionId = 1;
-
 }
 
 message CardReadConfirmation {

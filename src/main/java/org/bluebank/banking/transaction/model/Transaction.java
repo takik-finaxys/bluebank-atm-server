@@ -22,7 +22,7 @@ public class Transaction {
     }
 
     public static Transaction newWithdrawal(UUID id, BigDecimal amount) {
-        return new Transaction(id, amount, TransactionType.WITHDRAWAL);
+        return new Transaction(id, amount.negate(), TransactionType.WITHDRAWAL);
     }
 
     private enum TransactionType {

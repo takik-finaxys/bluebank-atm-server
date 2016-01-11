@@ -61,8 +61,17 @@ public class Transaction extends AggregateRoot {
         applyEvent(new DepositRequested(id, amount, card.cardNumber));
     }
 
+    public void requestWithdraw(BigDecimal amount) {
+        applyEvent(new WithdrawRequested(id, amount, card.cardNumber));
+    }
+
     public void handleDepositResponse(UUID transactionId, BigDecimal amount, String cardNumber) {
         applyEvent(new DepositPerformed(id, amount, cardNumber, transactionId, atmInfo));
+        applyEvent(new Closed(id));
+    }
+
+    public void handleWithdrawResponse(UUID transactionId, BigDecimal amount, String cardNumber) {
+        applyEvent(new WithdrawPerformed(id, amount, cardNumber, transactionId, atmInfo));
         applyEvent(new Closed(id));
     }
 
@@ -197,6 +206,22 @@ public class Transaction extends AggregateRoot {
         }
     }
 
+    public static class WithdrawRequested extends DomainEvent<Transaction> {
+        public final BigDecimal amount;
+        public final String cardNumber;
+
+        public WithdrawRequested(UUID id, BigDecimal amount, String cardNumber) {
+            super(id);
+            this.amount = amount;
+            this.cardNumber = cardNumber;
+        }
+
+        @Override
+        public void apply(Transaction transaction) {
+            transaction.states.add(States.WITHDRAWING);
+        }
+    }
+
     public class DepositPerformed extends DomainEvent<Transaction> {
         public final BigDecimal amount;
         public final String cardNumber;
@@ -204,6 +229,30 @@ public class Transaction extends AggregateRoot {
         public final AtmInfo atmInfo;
 
         public DepositPerformed(UUID id,
+                                BigDecimal amount,
+                                String cardNumber,
+                                UUID transactionId,
+                                AtmInfo atmInfo) {
+            super(id);
+            this.amount = amount;
+            this.cardNumber = cardNumber;
+            this.transactionId = transactionId;
+            this.atmInfo = atmInfo;
+        }
+
+        @Override
+        public void apply(Transaction transaction) {
+
+        }
+    }
+
+    public class WithdrawPerformed extends DomainEvent<Transaction> {
+        public final BigDecimal amount;
+        public final String cardNumber;
+        public final UUID transactionId;
+        public final AtmInfo atmInfo;
+
+        public WithdrawPerformed(UUID id,
                                 BigDecimal amount,
                                 String cardNumber,
                                 UUID transactionId,
@@ -261,6 +310,7 @@ public class Transaction extends AggregateRoot {
         CARD_READING,
         INITIAL,
         CARD_RETAINING,
+        WITHDRAWING,
         CLOSED
     }
 

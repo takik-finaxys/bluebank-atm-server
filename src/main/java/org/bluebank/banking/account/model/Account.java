@@ -1,6 +1,5 @@
 package org.bluebank.banking.account.model;
 
-
 import org.bluebank.api.domain.AggregateRoot;
 import org.bluebank.api.domain.DomainEvent;
 import org.bluebank.api.domain.IdGenerator;
@@ -14,7 +13,7 @@ import java.util.UUID;
 import static java.math.BigDecimal.ROUND_DOWN;
 import static java.math.BigDecimal.ZERO;
 import static org.bluebank.banking.transaction.model.Transaction.newDeposit;
-
+import static org.bluebank.banking.transaction.model.Transaction.newWithdrawal;
 
 public class Account extends AggregateRoot {
     private final UUID id;
@@ -101,6 +100,36 @@ public class Account extends AggregateRoot {
         @Override
         public void apply(Account account) {
             Transaction transaction = newDeposit(transactionId, amount);
+            account.transactions.add(transaction);
+        }
+    }
+
+    public void performWithdraw(UUID atmTransaction, BigDecimal amount) {
+        applyEvent(new WithdrawPerformed(getId(), atmTransaction, amount, cardNumber, idGenerator.generate()));
+    }
+
+    public static class WithdrawPerformed extends DomainEvent<Account> {
+
+        public final UUID atmTransaction;
+        public final BigDecimal amount;
+        public final String cardNumber;
+        public final UUID transactionId;
+
+        public WithdrawPerformed(UUID id,
+                                UUID atmTransaction,
+                                BigDecimal amount,
+                                String cardNumber,
+                                UUID transactionId) {
+            super(id);
+            this.atmTransaction = atmTransaction;
+            this.amount = amount;
+            this.cardNumber = cardNumber;
+            this.transactionId = transactionId;
+        }
+
+        @Override
+        public void apply(Account account) {
+            Transaction transaction = newWithdrawal(transactionId, amount);
             account.transactions.add(transaction);
         }
     }

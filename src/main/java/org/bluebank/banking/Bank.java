@@ -7,8 +7,10 @@ import org.bluebank.banking.authorization.command.PerformPinValidation;
 import org.bluebank.banking.authorization.command.factory.PerformPinValidationFactory;
 import org.bluebank.banking.transaction.command.PerformDeposit;
 import org.bluebank.banking.transaction.command.PerformInquiry;
+import org.bluebank.banking.transaction.command.PerformWithdraw;
 import org.bluebank.banking.transaction.command.factory.PerformDepositFactory;
 import org.bluebank.banking.transaction.command.factory.PerformInquiryFactory;
+import org.bluebank.banking.transaction.command.factory.PerformWithdrawFactory;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -22,6 +24,7 @@ public class Bank {
     private final ConcurrentMap<String, UUID> accounts;
     private final CreateAccountFactory createAccountFactory;
     private final PerformDepositFactory performDepositFactory;
+    private final PerformWithdrawFactory performWithdrawFactory;
     private final PerformInquiryFactory performInquiryFactory;
     private final PerformPinValidationFactory performPinValidationFactory;
     private final CommandProcessor commandProcessor;
@@ -29,11 +32,13 @@ public class Bank {
     @Inject
     public Bank(CreateAccountFactory createAccountFactory,
                 PerformDepositFactory performDepositFactory,
+                PerformWithdrawFactory performWithdrawFactory,
                 PerformInquiryFactory performInquiryFactory,
                 PerformPinValidationFactory performPinValidationFactory,
                 CommandProcessor commandProcessor) {
         this.createAccountFactory = createAccountFactory;
         this.performDepositFactory = performDepositFactory;
+        this.performWithdrawFactory = performWithdrawFactory;
         this.performInquiryFactory = performInquiryFactory;
         this.performPinValidationFactory = performPinValidationFactory;
         this.commandProcessor = commandProcessor;
@@ -44,6 +49,12 @@ public class Bank {
         UUID accountNumber = accounts.get(cardNumber);
         PerformDeposit performDeposit = performDepositFactory.build(transactionId, accountNumber, amount);
         commandProcessor.process(performDeposit);
+    }
+
+    public void performWithdraw(UUID transactionId, String cardNumber, BigDecimal amount) {
+        UUID accountNumber = accounts.get(cardNumber);
+        PerformWithdraw performWithdraw = performWithdrawFactory.build(transactionId, accountNumber, amount);
+        commandProcessor.process(performWithdraw);
     }
 
     public void performInquiry(UUID transactionId, String cardNumber) {
