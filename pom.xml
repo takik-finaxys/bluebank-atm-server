@@ -465,6 +465,13 @@
 					<descriptors>
 						<descriptor>src/assembly/jar-with-dependencies.xml</descriptor>
 					</descriptors>
+					    <execution>
+        <id>dist-assembly</id>
+        <phase>package</phase>
+        <goals>
+            <goal>single</goal> <!-- that's all :) -->
+        </goals>
+    </execution>
 				</configuration>
 			</plugin>
 		</plugins>
