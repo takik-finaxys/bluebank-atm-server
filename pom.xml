@@ -4,9 +4,9 @@
 
 	<groupId>org.bluebank.atm</groupId>
 	<artifactId>bluebank-atm</artifactId>
-	<version>1.0-SNAPSHOT</version>
 	<name>Bluebank ATM Server</name>
 	<description>Bluebank ATM Services</description>
+    <version>ATM-${env.PIPELINE_VERSION}</version>
 
 	<properties>
 		<sonar.pitest.mode>active</sonar.pitest.mode>
@@ -246,6 +246,31 @@
     	<finalName>${project.artifactId}</finalName>
 	
 		<plugins>
+		    <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-enforcer-plugin</artifactId>
+              <version>1.4.1</version>
+              <executions>
+                <execution>
+                  <id>enforce-property</id>
+                  <goals>
+                    <goal>enforce</goal>
+                  </goals>
+                  <configuration>
+                    <rules>
+                      <requireProperty>
+                        <property>project.version</property>
+                        <message>"Project version must be specified."</message>
+                        <regex>.*(\d|-SNAPSHOT)$</regex>
+                        <regexMessage>"Project version must end in a number or -SNAPSHOT. Did the environment build/CI engine set the PIPELINE_VERSION value?"</regexMessage>
+                      </requireProperty>
+                    </rules>
+                    <fail>true</fail>
+                  </configuration>
+                </execution>
+              </executions>
+            </plugin>                 
+		
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -479,5 +504,5 @@
 			<url>http://sergei-ivanov.github.com/maven-protoc-plugin/repo/releases/</url>
 		</pluginRepository>
 	</pluginRepositories>
-
+	
 </project>
