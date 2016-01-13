@@ -21,13 +21,13 @@
 	</dependencySets>
 
 	<fileSets>
-<!--		<fileSet>
+<!-- 		<fileSet>
 			<directory>target</directory>
 			<outputDirectory>/lib</outputDirectory>
 			<includes>
 				<include>bluebank-atm.jar</include>
 			</includes>
-		</fileSet>-->
+		</fileSet> -->
 		<fileSet>
 			<directory>node-client</directory>
 			<outputDirectory>node-client</outputDirectory>
