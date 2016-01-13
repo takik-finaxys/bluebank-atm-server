@@ -22,6 +22,13 @@
 
 	<fileSets>
 		<fileSet>
+			<directory>target</directory>
+			<outputDirectory>/lib</outputDirectory>
+			<includes>
+				<include>bluebank-atm.jar</include>
+			</includes>
+		</fileSet>
+		<fileSet>
 			<directory>node-client</directory>
 			<outputDirectory>node-client</outputDirectory>
 			<includes>
@@ -30,8 +37,4 @@
 		</fileSet>
 	</fileSets>
 
-	<!-- <fileSets> conf <fileSet> <directory>src/main/config</directory> <outputDirectory>conf</outputDirectory> 
-		<includes> <include>**/*</include> </includes> </fileSet> lib <fileSet> <directory>${project.build.directory}</directory> 
-		<outputDirectory>lib</outputDirectory> <includes> <include>*.jar</include> 
-		</includes> </fileSet> </fileSets> -->
 </assembly>
