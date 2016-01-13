@@ -2,7 +2,7 @@ FROM codenvy/ubuntu_jdk8
 
 # NGINX SETUP TAKEN FROM THE https://github.com/nginxinc/docker-nginx.git OFFICIAL IMAGE FOR CLIENT SIDE
 # ENV NGINX_VERSION 1.9.9-1~jessie
-ENV NGINX_VERSION 1.9.9-1
+# ENV NGINX_VERSION 1.9.9-1
 
 USER root 
 # GET entry point script running server and client binaries
@@ -16,7 +16,8 @@ RUN echo "deb http://nginx.org/packages/mainline/debian/ jessie nginx" >> /etc/a
 EXPOSE 8080 80 443
 
 RUN apt-get update && \
-    apt-get install -y ca-certificates nginx=${NGINX_VERSION} && \
+#    apt-get install -y ca-certificates nginx=${NGINX_VERSION} && \
+    apt-get install -y ca-certificates nginx && \
     rm -rf /var/lib/apt/lists/*
 
 # forward request and error logs to docker log collector
