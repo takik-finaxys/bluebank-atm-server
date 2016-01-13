@@ -5,9 +5,6 @@ FROM codenvy/debian_jdk8
 # ENV NGINX_VERSION 1.9.9-1
 
 USER root 
-# GET entry point script running server and client binaries
-COPY ./atm-startup.sh /tmp/
-RUN whoami && ls -l /tmp/atm-startup.sh && chmod +x /tmp/atm-startup.sh
 
 RUN apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62
 RUN echo "deb http://nginx.org/packages/mainline/debian/ jessie nginx" >> /etc/apt/sources.list
@@ -34,4 +31,7 @@ COPY ./bluebank-atm.zip	/tmp/
 # extract the war to run server/UI in standalone
 RUN rm -rf /tmp/ATM-SERVER && mkdir -p /tmp/ATM-SERVER && cd /tmp/ATM-SERVER && unzip /tmp/bluebank-atm.zip
 
+# GET entry point script running server and client binaries
+COPY ./atm-startup.sh /tmp/
+RUN whoami && ls -l /tmp/atm-startup.sh && chmod +x /tmp/atm-startup.sh
 ENTRYPOINT [ "/tmp/atm-startup.sh" ]
