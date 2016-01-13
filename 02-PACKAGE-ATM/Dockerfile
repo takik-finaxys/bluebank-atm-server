@@ -1,4 +1,4 @@
-FROM codenvy/ubuntu_jdk8
+FROM codenvy/debian_jdk8
 
 # NGINX SETUP TAKEN FROM THE https://github.com/nginxinc/docker-nginx.git OFFICIAL IMAGE FOR CLIENT SIDE
 # ENV NGINX_VERSION 1.9.9-1~jessie
