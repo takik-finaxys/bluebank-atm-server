@@ -29,9 +29,9 @@ VOLUME ["/var/cache/nginx"]
 # NGINX STARTUP IN THE ENTRYPOINT CMD ["nginx", "-g", "daemon off;"]
 
 # GET ATM server/client code
-COPY ./bluebank-atm-ATMSERVER.zip /tmp/
+COPY ./bluebank-atm.zip	/tmp/
 
 # extract the war to run server/UI in standalone
-RUN rm -rf /tmp/ATM-SERVER && mkdir -p /tmp/ATM-SERVER && cd /tmp/ATM-SERVER && unzip /tmp/bluebank-atm-ATMSERVER.zip
+RUN rm -rf /tmp/ATM-SERVER && mkdir -p /tmp/ATM-SERVER && cd /tmp/ATM-SERVER && unzip /tmp/bluebank-atm.zip
 
 ENTRYPOINT [ "/tmp/atm-startup.sh" ]
