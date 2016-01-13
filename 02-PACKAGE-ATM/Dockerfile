@@ -36,8 +36,5 @@ RUN cp -r /tmp/ATM-SERVER/node-client/* /usr/share/nginx/html/
 COPY ./atm-startup.sh /tmp/
 RUN whoami && ls -l /tmp/atm-startup.sh && chmod +x /tmp/atm-startup.sh
 
-# START NGINX
-CMD ["nginx", "-g", "daemon off;"]
-
-# EXECUTE ENTRY POINT LAUNCHING THE SERVER
+# EXECUTE ENTRY POINT LAUNCHING THE SERVER AND CLIENT
 ENTRYPOINT [ "/tmp/atm-startup.sh" ]
