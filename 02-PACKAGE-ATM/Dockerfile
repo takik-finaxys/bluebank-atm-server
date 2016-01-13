@@ -1,7 +1,8 @@
 FROM codenvy/ubuntu_jdk8
 
 # NGINX SETUP TAKEN FROM THE https://github.com/nginxinc/docker-nginx.git OFFICIAL IMAGE FOR CLIENT SIDE
-ENV NGINX_VERSION 1.9.9-1~jessie
+# ENV NGINX_VERSION 1.9.9-1~jessie
+ENV NGINX_VERSION 1.9.9-1
 
 USER root 
 # GET entry point script running server and client binaries
