@@ -29,9 +29,15 @@ COPY ./bluebank-atm.zip	/tmp/
 # extract the war to run server/UI in standalone
 RUN rm -rf /tmp/ATM-SERVER && mkdir -p /tmp/ATM-SERVER && cd /tmp/ATM-SERVER && unzip /tmp/bluebank-atm.zip
 
+# COPY THE UI DISTRIBUTION IN NGINX HTTP FOLDER
+RUN cp -r /tmp/ATM-SERVER/node-client/* /usr/share/nginx/html/
+
 # GET entry point script running server and client binaries
 COPY ./atm-startup.sh /tmp/
 RUN whoami && ls -l /tmp/atm-startup.sh && chmod +x /tmp/atm-startup.sh
 
-#CMD ["nginx", "-g", "daemon off;"]
-#ENTRYPOINT [ "/tmp/atm-startup.sh" ]
+# START NGINX
+CMD ["nginx", "-g", "daemon off;"]
+
+# EXECUTE ENTRY POINT LAUNCHING THE SERVER
+ENTRYPOINT [ "/tmp/atm-startup.sh" ]
