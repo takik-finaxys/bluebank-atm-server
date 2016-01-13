@@ -9,8 +9,8 @@ USER root
 RUN apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62
 RUN echo "deb http://nginx.org/packages/mainline/debian/ jessie nginx" >> /etc/apt/sources.list
 
-# server ports (8080 for server and 80/443 for nginx)
-EXPOSE 8080 80 443
+# server ports (8180 for server and 80 for nginx)
+EXPOSE 8180 80
 
 RUN apt-get update && \
 #    apt-get install -y ca-certificates nginx=${NGINX_VERSION} && \
