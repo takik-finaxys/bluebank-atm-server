@@ -23,8 +23,6 @@ RUN ln -sf /dev/stderr /var/log/nginx/error.log
 
 VOLUME ["/var/cache/nginx"]
 
-# NGINX STARTUP IN THE ENTRYPOINT CMD ["nginx", "-g", "daemon off;"]
-
 # GET ATM server/client code
 COPY ./bluebank-atm.zip	/tmp/
 
@@ -34,4 +32,6 @@ RUN rm -rf /tmp/ATM-SERVER && mkdir -p /tmp/ATM-SERVER && cd /tmp/ATM-SERVER && 
 # GET entry point script running server and client binaries
 COPY ./atm-startup.sh /tmp/
 RUN whoami && ls -l /tmp/atm-startup.sh && chmod +x /tmp/atm-startup.sh
-ENTRYPOINT [ "/tmp/atm-startup.sh" ]
+
+#CMD ["nginx", "-g", "daemon off;"]
+#ENTRYPOINT [ "/tmp/atm-startup.sh" ]
