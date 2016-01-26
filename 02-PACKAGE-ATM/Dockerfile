@@ -1,9 +1,5 @@
 FROM codenvy/debian_jdk8
 
-# NGINX SETUP TAKEN FROM THE https://github.com/nginxinc/docker-nginx.git OFFICIAL IMAGE FOR CLIENT SIDE
-# ENV NGINX_VERSION 1.9.9-1~jessie
-# ENV NGINX_VERSION 1.9.9-1
-
 USER root 
 
 RUN apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62
