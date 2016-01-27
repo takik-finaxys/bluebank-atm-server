@@ -1,3 +1,5 @@
-[![Build Status](https://travis-ci.org/riadmaouchi/bluebank-atm-server.svg?branch=master)](https://travis-ci.org/riadmaouchi/bluebank-atm-server) [![Coverage Status](https://coveralls.io/repos/riadmaouchi/bluebank-atm-server/badge.svg?branch=master&service=github)](https://coveralls.io/github/riadmaouchi/bluebank-atm-server?branch=master)
-
-ATM training project repository
+## ATM (continuous delivery training application)  
+- general presentation : https://drive.google.com/open?id=0B7l9P241qSONRG81a1R2WFhvQWc  
+- https://slides.com/sedatguclu/deck-1/  
+  
+N.B. : VMS are needed to schedule this session (https://github.com/Finaxys/vm-formation)  
