@@ -20,7 +20,7 @@ public class CreateAccount extends FirstAggregateRootCommand<Account> {
         this.cardNumber = cardNumber;
         this.pin = pin;
         
-        System.out.println("##############"+this.cardNumber +"_"+ this.pin);
+        System.out.println("########"+this.cardNumber +"_"+ this.pin);
     }
 
     @Override
