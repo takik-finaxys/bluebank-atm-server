@@ -6,9 +6,11 @@
 	<artifactId>bluebank-atm</artifactId>
 	<name>Bluebank ATM Server</name>
 	<description>Bluebank ATM Services</description>
-	<version>ATM-${env.PIPELINE_VERSION}</version>
+	<!-- <version>ATM-${env.PIPELINE_VERSION}</version> -->
+	<version>ATM-1.0</version>
 
 	<properties>
+		<PROTOC_HOME>D:/Tools/protoc-2.6.1-win32/protoc.exe</PROTOC_HOME>
 		<sonar.pitest.mode>active</sonar.pitest.mode>
 		<sonar.exclusions>**/generated-sources/**</sonar.exclusions>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -421,9 +423,10 @@
 			</plugin>
 
 			<plugin>
-				<groupId>com.google.protobuf.tools</groupId>
+				<!-- <groupId>com.google.protobuf.tools</groupId> -->
+				<groupId>net.dongliu</groupId>
 				<artifactId>maven-protoc-plugin</artifactId>
-				<version>0.3.2</version>
+				<version>0.3.5</version>
 				<executions>
 					<execution>
 						<id>generate-sources</id>

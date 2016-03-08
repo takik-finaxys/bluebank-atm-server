@@ -19,6 +19,8 @@ public class CreateAccount extends FirstAggregateRootCommand<Account> {
         super(transactionId, repository, eventsDispatcher);
         this.cardNumber = cardNumber;
         this.pin = pin;
+        
+        System.out.println("##############"+this.cardNumber +"_"+ this.pin);
     }
 
     @Override
