@@ -35,6 +35,14 @@
 				<include>**/*</include>
 			</includes>
 		</fileSet>
+		
+		<fileSet>
+			<directory>src/main/config/docker</directory>
+			<outputDirectory>docker</outputDirectory>
+			<includes>
+				<include>**/*</include>
+			</includes>
+		</fileSet>
 	</fileSets>
 
 </assembly>
