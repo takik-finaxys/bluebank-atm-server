@@ -6,11 +6,11 @@
 	<artifactId>bluebank-atm</artifactId>
 	<name>Bluebank ATM Server</name>
 	<description>Bluebank ATM Services</description>
-	<!-- <version>ATM-${env.PIPELINE_VERSION}</version> -->
-	<version>ATM-1.0</version>
+	<version>ATM-${env.PIPELINE_VERSION}</version>
+	<!-- <version>ATM-1.0</version> -->
 
 	<properties>
-		<PROTOC_HOME>D:/Tools/protoc-2.6.1-win32/protoc.exe</PROTOC_HOME>
+		<!-- <PROTOC_HOME>D:/Tools/protoc-2.6.1-win32/protoc.exe</PROTOC_HOME> -->
 		<sonar.pitest.mode>active</sonar.pitest.mode>
 		<sonar.exclusions>**/generated-sources/**</sonar.exclusions>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
